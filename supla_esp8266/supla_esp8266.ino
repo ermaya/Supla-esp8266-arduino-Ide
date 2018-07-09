@@ -88,6 +88,7 @@ void ondemandwifiCallback () {
     strcpy(Location_id, custom_Location_id.getValue());
     strcpy(Location_Pass, custom_Location_Pass.getValue());
   
+    WiFi.softAPdisconnect(true);   //  close AP  
 }
 
 // ntc Sensor read implementation---------------------------------- Temp -------------------------------------------
@@ -183,8 +184,7 @@ void setup() {  //------------------------------------------------ Setup -------
         configFile.readBytes(buf.get(), size);
         DynamicJsonBuffer jsonBuffer;         
         JsonObject& json = jsonBuffer.parseObject(buf.get());
-        Serial.println(jsonBuffer.size());
-        json.printTo(Serial);
+        //json.printTo(Serial);   //print config data to serial on startup
         if (json.success()) {
           Serial.println("\nparsed json");
 
@@ -229,6 +229,7 @@ void setup() {  //------------------------------------------------ Setup -------
   btn[2].channel =2;     // supla channel
   supla_btn_init();
   SuplaDevice.setTimerFuncImpl(&supla_timer);
+  SuplaDevice.setName("elmaya esp8266");
 
   int LocationID = atoi(Location_id);
   SuplaDevice.begin(GUID,              // Global Unique Identifier 
