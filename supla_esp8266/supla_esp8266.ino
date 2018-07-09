@@ -26,7 +26,10 @@ bool initialConfig = false;
 
 #define TRIGGER_PIN D3       // wifi config trigger gpio pin
 int timeout           = 120; // wifi config seconds to run for
-
+int config_button_state = HIGH;                
+int last_config_button_state = HIGH;            
+unsigned long time_last_Cambio_boton_C_W = 0;    
+long config_delay = 10000;               // 10000 = 10 second delay
 
 unsigned int Rs = 100000;
 double Vcc = 3.3;
@@ -239,10 +242,22 @@ void setup() {  //------------------------------------------------ Setup -------
 void loop() {
 
     // is configuration portal requested?
-  if ( digitalRead(TRIGGER_PIN) == LOW|| (initialConfig))  {
-    ondemandwifiCallback () ;
-    initialConfig = false; 
-  }
+  int read_config_button = digitalRead(TRIGGER_PIN);{    
+   if (read_config_button != last_config_button_state) {       
+     
+     time_last_Cambio_boton_C_W = millis();
+   }
+   if ((millis() - time_last_Cambio_boton_C_W) > config_delay) {
+     
+     if (read_config_button != config_button_state) {     
+       config_button_state = read_config_button;      
+       if (config_button_state == LOW) {
+        ondemandwifiCallback ();
+       }
+     }
+    }
+   last_config_button_state = read_config_button;            
+   }
   //save the custom parameters to FS
   if (shouldSaveConfig) {
     Serial.println("saving config");
