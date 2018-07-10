@@ -87,8 +87,7 @@ void ondemandwifiCallback () {
     strcpy(Supla_server, custom_Supla_server.getValue());
     strcpy(Location_id, custom_Location_id.getValue());
     strcpy(Location_Pass, custom_Location_Pass.getValue());
-  
-    WiFi.softAPdisconnect(true);   //  close AP  
+   
 }
 
 // ntc Sensor read implementation---------------------------------- Temp -------------------------------------------
@@ -278,6 +277,7 @@ void loop() {
     Serial.println("config saved");
     shouldSaveConfig = false;
     //end save
+    WiFi.softAPdisconnect(true);   //  close AP 
   }
   
   if (WiFi.status() != WL_CONNECTED) 
