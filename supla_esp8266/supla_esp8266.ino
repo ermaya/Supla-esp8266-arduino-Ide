@@ -112,6 +112,7 @@ typedef struct {  //------------------------------------------- BTN ------------
   int pin;
   int relay_pin;
   int channel;
+  int ms;
   char last_val;
   unsigned long last_time;
 } _btn_t;
@@ -130,6 +131,9 @@ void supla_timer() {
            btn[a].last_time = now;
            if (v==0)
              {
+             if ( btn[a].ms > 0 ) {
+                     SuplaDevice.relayOn(btn[a].channel, btn[a].ms);
+                 } else {
                  if ( digitalRead(btn[a].relay_pin) == 0 ) {
                   SuplaDevice.relayOff(btn[a].channel);
                   Serial.print("BTN Switsh off relay ");
@@ -141,7 +145,7 @@ void supla_timer() {
                  }        
              }
         }
-  
+      }
     }
 }
 void supla_btn_init() {
@@ -220,12 +224,15 @@ void setup() {  //------------------------------------------------ Setup -------
   btn[0].pin =14;  // pin gpio  button D5
   btn[0].relay_pin =5;  // pin gpio on which is relay  D1
   btn[0].channel =0;     // supla channel
+  btn[0].ms =0;           // if = 0 Bistable -- if > 0 Monostable for X ms
   btn[1].pin =12;  // pin gpio  button D6
   btn[1].relay_pin =4;  // pin gpio on which is relay  D2
   btn[1].channel =1;     // supla channel
+  btn[1].ms =0;           // if = 0 Bistable -- if > 0 Monostable for X ms
   btn[2].pin =13;  // pin gpio  button D7 
   btn[2].relay_pin =2;  // pin gpio on which is relay  D4 
   btn[2].channel =2;     // supla channel
+  btn[2].ms =0;           // if = 0 Bistable -- if > 0 Monostable for X ms
   supla_btn_init();
   SuplaDevice.setTimerFuncImpl(&supla_timer);
   SuplaDevice.setName("elmaya esp8266");
