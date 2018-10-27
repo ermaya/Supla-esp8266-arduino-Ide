@@ -21,6 +21,8 @@ bool eep = LOW;          //             ---------------- Eeprom ----------------
 bool startEeprom = true; //             ---------------- Eeprom ------------------
 int epr = 0;             //             ----------- Eepron read loops ------------
 int s;                   //             ---------------- Status ------------------
+unsigned long svr_update = 1800000; //mean time between update
+unsigned long svr_update_lasttime;   //last time update
 #define BEGIN_PIN 100
 
 ADC_MODE(ADC_VCC);
@@ -452,6 +454,11 @@ void loop() {
    epr = epr+1;                   // -------- 1 loop for each output 8 in total ----------
    
   }
+    if (millis() > svr_update_lasttime + svr_update)  {
+    epr = 0 ;
+    Serial.println("svr update");
+    }
+    svr_update_lasttime = millis();
  }
 }
 
