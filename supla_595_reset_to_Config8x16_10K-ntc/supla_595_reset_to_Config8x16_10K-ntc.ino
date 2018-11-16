@@ -21,7 +21,7 @@ bool eep = LOW;          //             ---------------- Eeprom ----------------
 bool startEeprom = true; //             ---------------- Eeprom ------------------
 int epr = 0;             //             ----------- Eepron read loops ------------
 int s;                   //             ---------------- Status ------------------
-unsigned long svr_update = 900000; //mean time between update  15 minutes
+unsigned long svr_update = 1800000; //mean time between update  30 minutes
 unsigned long svr_update_lasttime;   //last time update
 unsigned long wifi_checkDelay = 60000;  // wifi reconect delay
 unsigned long wifimilis;
@@ -468,12 +468,12 @@ void setup() {  //------------------------------------------------ Setup -------
   btn[5].channel =5;      // channel
   btn[5].ms =0;           //  if = 0 Bistable -- if > 0 Monostable for X ms
   btn[5].mem =0;
-  btn[6].pin =13;         // pin gpio buton  0 = no buton
+  btn[6].pin =3;         // pin gpio buton  0 = no buton
   btn[6].relay_pin =107;    // pin gpio Relay
   btn[6].channel =6;      // channel
   btn[6].ms =0;           //  if = 0 Bistable -- if > 0 Monostable for X ms
   btn[6].mem =0;
-  btn[7].pin =2;          // pin gpio buton  0 = no buton
+  btn[7].pin =1;          // pin gpio buton  0 = no buton
   btn[7].relay_pin =108;  // pin gpio Relay
   btn[7].channel =7;      // channel
   btn[7].ms =0;           //  if = 0 Bistable -- if > 0 Monostable for X ms
@@ -602,8 +602,16 @@ void loop() {
     epr = 0 ;
      startEeprom = true;
       Serial.println("svr update");
+        svr_update = 1800000;
             svr_update_lasttime = millis(); 
-    }
+  }
+    break;
+    case 9:      // --------------------- DISCONNECTED  ----------------------
+    svr_update = 5000;
+    break;
+    case 10:      // --------------------- REGISTER_IN_PROGRESS  ----------------------
+    svr_update = 5000;
+    break;
   }
  
 }
