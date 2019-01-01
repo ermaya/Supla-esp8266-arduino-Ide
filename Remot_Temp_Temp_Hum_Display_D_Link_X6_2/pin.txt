@@ -1,0 +1,33 @@
+Pin D0 = Direct Link 1
+Pin D3 = Direct Link 2   hold 5 seconds to enter config
+Pin D4 = Direct Link 3
+Pin D5 = Direct Link 4
+Pin D6 = Direct Link 5
+Pin D7 = Direct Link 6
+Pin D1 = Lcd SCL
+Pin D2 = Lcd SDA
+
+Lcd = 20x4 I2C (0x27)
+
+
+imagenes url
+la
+[IMG]http://i63.tinypic.com/acd5pv.jpg[/IMG]
+lcd3
+[IMG]http://i68.tinypic.com/33bjmu9.jpg[/IMG]
+wifiman
+[IMG]http://i66.tinypic.com/2e1txtx.jpg[/IMG]
+wifiman3
+[IMG]http://i66.tinypic.com/2lb1dfr.jpg[/IMG]
+
+
+6 push buttons for 6 Supla direct links
+[IMG]http://i63.tinypic.com/acd5pv.jpg[/IMG]
+1 direct link to display temperature on LCD
+1 direct link to display temperature and humidity on LCD
+
+[IMG]http://i68.tinypic.com/33bjmu9.jpg[/IMG]
+
+to access configuration press button link2 (D3) for 5 seconds
+configuration using wifimanager
+[IMG]http://i66.tinypic.com/2lb1dfr.jpg[/IMG]
