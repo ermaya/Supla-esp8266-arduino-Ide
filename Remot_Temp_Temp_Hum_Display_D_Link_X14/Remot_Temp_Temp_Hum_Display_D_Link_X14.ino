@@ -62,22 +62,22 @@ void saveConfigCallback () {
 void ondemandwifiCallback () {
 
   WiFiManagerParameter custom_Supla_server("server", "supla server", Supla_server, 20);
-  WiFiManagerParameter custom_D_Link_1("Link 1", "D_Link_1", D_Link_1, 40);
-  WiFiManagerParameter custom_D_Link_2("Link 2", "D_Link_2", D_Link_2, 40);
-  WiFiManagerParameter custom_D_Link_3("Link 3", "D_Link_3", D_Link_3, 40);
-  WiFiManagerParameter custom_D_Link_4("Link 4", "D_Link_4", D_Link_4, 40);
-  WiFiManagerParameter custom_D_Link_5("Link 5", "D_Link_5", D_Link_5, 40);
-  WiFiManagerParameter custom_D_Link_6("Link 6", "D_Link_6", D_Link_6, 40);
-  WiFiManagerParameter custom_D_Link_7("Link 7", "D_Link_7", D_Link_7, 40);
-  WiFiManagerParameter custom_D_Link_8("Link 8", "D_Link_8", D_Link_8, 40);
-  WiFiManagerParameter custom_D_Link_9("Link 9", "D_Link_9", D_Link_9, 40);
-  WiFiManagerParameter custom_D_Link_10("Link 10", "D_Link_10", D_Link_10, 40);
-  WiFiManagerParameter custom_D_Link_11("Link 11", "D_Link_11", D_Link_11, 40);
-  WiFiManagerParameter custom_D_Link_12("Link 12", "D_Link_12", D_Link_12, 40);
-  WiFiManagerParameter custom_D_Link_13("Link 13", "D_Link_13", D_Link_13, 40);
-  WiFiManagerParameter custom_D_Link_14("Link 14", "D_Link_14", D_Link_14, 40);
-  WiFiManagerParameter custom_Link_T("Link T", "Link_T", Link_T, 40);
-  WiFiManagerParameter custom_Link_T_H("Link T H", "Link_T_H", Link_T_H, 40);
+  WiFiManagerParameter custom_D_Link_1("Link 1", "Direct Link 1", D_Link_1, 40);
+  WiFiManagerParameter custom_D_Link_2("Link 2", "Direct Link 2", D_Link_2, 40);
+  WiFiManagerParameter custom_D_Link_3("Link 3", "Direct Link 3", D_Link_3, 40);
+  WiFiManagerParameter custom_D_Link_4("Link 4", "Direct Link 4", D_Link_4, 40);
+  WiFiManagerParameter custom_D_Link_5("Link 5", "Direct Link 5", D_Link_5, 40);
+  WiFiManagerParameter custom_D_Link_6("Link 6", "Direct Link 6", D_Link_6, 40);
+  WiFiManagerParameter custom_D_Link_7("Link 7", "Direct Link 7", D_Link_7, 40);
+  WiFiManagerParameter custom_D_Link_8("Link 8", "Direct Link 8", D_Link_8, 40);
+  WiFiManagerParameter custom_D_Link_9("Link 9", "Direct Link 9", D_Link_9, 40);
+  WiFiManagerParameter custom_D_Link_10("Link 10", "Direct Link 10", D_Link_10, 40);
+  WiFiManagerParameter custom_D_Link_11("Link 11", "Direct Link 11", D_Link_11, 40);
+  WiFiManagerParameter custom_D_Link_12("Link 12", "Direct Link 12", D_Link_12, 40);
+  WiFiManagerParameter custom_D_Link_13("Link 13", "Direct Link 13", D_Link_13, 40);
+  WiFiManagerParameter custom_D_Link_14("Link 14", "Direct Link 14", D_Link_14, 40);
+  WiFiManagerParameter custom_Link_T("Link T", "Direct Link Tenp", Link_T, 40);
+  WiFiManagerParameter custom_Link_T_H("Link T H", "Direct Link Temp+Hum", Link_T_H, 40);
  
   WiFiManager wifiManager;
 
