@@ -55,8 +55,8 @@ void ondemandwifiCallback () {
   WiFiManagerParameter custom_D_Link_4("Link 4", "D_Link_4", D_Link_4, 40);
   WiFiManagerParameter custom_D_Link_5("Link 5", "D_Link_5", D_Link_5, 40);
   WiFiManagerParameter custom_D_Link_6("Link 6", "D_Link_6", D_Link_6, 40);
-  WiFiManagerParameter custom_D_Link_7("Link 7", "D_Link_7", D_Link_8, 40);
-  WiFiManagerParameter custom_D_Link_8("Link 8", "D_Link_8", D_Link_7, 40);
+  WiFiManagerParameter custom_D_Link_7("Link 7", "D_Link_7", D_Link_7, 40);
+  WiFiManagerParameter custom_D_Link_8("Link 8", "D_Link_8", D_Link_8, 40);
 
   WiFiManager wifiManager;
 
