@@ -666,6 +666,11 @@ void loop() {
 
   drd.loop();
 
+  if (initialConfig){
+    ondemandwifiCallback () ;
+    initialConfig = false; 
+  }
+
   if (shouldSaveConfig) {
     Serial.println("saving config");
     DynamicJsonBuffer jsonBuffer;
@@ -683,7 +688,9 @@ void loop() {
     configFile.close();
     Serial.println("config saved");
     shouldSaveConfig = false;
-    //end save
+    WiFi.mode(WIFI_STA);
+    ESP.restart();
+    delay(5000); 
   }
   if (WiFi.status() != WL_CONNECTED) { 
     WiFi_up();
