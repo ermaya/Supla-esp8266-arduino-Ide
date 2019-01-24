@@ -752,7 +752,11 @@ void loop() {
   drd.loop();
 
   
-  //save the custom parameters to FS
+  if (initialConfig){
+    ondemandwifiCallback () ;
+    initialConfig = false; 
+  }
+
   if (shouldSaveConfig) {
     Serial.println("saving config");
     DynamicJsonBuffer jsonBuffer;
@@ -770,11 +774,9 @@ void loop() {
     configFile.close();
     Serial.println("config saved");
     shouldSaveConfig = false;
-    delay(3000);
-      //reset and try again, or maybe put it to deep sleep
-      ESP.restart();
-      delay(5000);
-    //end save
+    WiFi.mode(WIFI_STA);
+    ESP.restart();
+    delay(5000); 
   }
   if (WiFi.status() != WL_CONNECTED) { 
     WiFi_up();
