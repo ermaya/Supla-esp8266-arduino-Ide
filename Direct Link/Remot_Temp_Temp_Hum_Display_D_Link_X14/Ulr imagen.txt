@@ -1,0 +1,24 @@
+lcd_i2c x14_bb
+[IMG]http://i66.tinypic.com/xlcme1.png[/IMG]
+lcd x14 wifimanager
+[IMG]http://i68.tinypic.com/2dw4to9.png[/IMG]
+
+
+14 push buttons for 14 Supla direct links (7 on - 7 off)
+1 direct link to display temperature on LCD  (DS18b20)
+1 direct link to display temperature and humidity on LCD  (Dht11,Dht22,etc.)
+
+to access configuration press button link2 (D3) for 5 seconds
+configuration using wifimanager
+
+Pin D0 = Direct Link 1
+Pin D3 = Direct Link 2 hold 5 seconds to enter config
+Pin D4 = Direct Link 3
+Pin D5 = Direct Link 4
+Pin D6 = Direct Link 5
+Pin D7 = Direct Link 6
+Pin A0 = Direct Link 7-14
+Pin D1 = Lcd SCL
+Pin D2 = Lcd SDA
+
+Lcd = 20x4 I2C (0x27)

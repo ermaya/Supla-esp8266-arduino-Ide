@@ -1,0 +1,10 @@
+@ procekms89    check your Gpio connections.
+
+@ wsosniak 
+char D_Link_1[60];
+WiFiManagerParameter custom_D_Link_1("Link 1", "D_Link_1", D_Link_1, 60);
+
+remember to erase your Esp8266 before flashing new firmware
+
+read flash
+C: \ Users \ xxxxx \ AppData \ Local \ Programs \ Python \ Python37-32 \ Scripts>. \ Esptool.py.exe --port com3 --baud 115200 read_fla
