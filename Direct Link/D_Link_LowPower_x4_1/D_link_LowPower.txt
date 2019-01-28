@@ -1,0 +1,19 @@
+4 direct links for batteries use 
+
+4 direct links  button L1-L4
+wificonfig      button config
+connect EN to VCC to allow programming
+the process is slow (5 or 6 seconds) due to connection to wifi
+virtually no standby consumption
+
+[IMG]http://i66.tinypic.com/30kszuv.jpg[/IMG]
+
+Initial parameters for "ESP Falsh Download Tool":
+
+CreystalFreq 	26M
+SPI SPEED 	40 MHz
+SPI MODE 	QIO
+BAUDRATE 	11520
+FLASH SIZE 	32Mbit (4MByte)
+
+D_Link_LowPower_x4.bin ------------> 0x00000
