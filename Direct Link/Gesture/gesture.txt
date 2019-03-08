@@ -1,0 +1,13 @@
+directLink controlled by gestures
+
+0.96" Oled I2C 
+Paj7620 gesture sensor
+4 channels (8 Link) turned on-off
+move left or right select channel
+upward movement sends link up  1-4
+downward movement sends link down 1-4
+Wifi config D3 (Gpio 0) 5 seconds
+SCL = D1 (Gpio 5)
+SDA = D2 (Gpio 4)
+
+https://youtu.be/QPtxDJUXq3Q
