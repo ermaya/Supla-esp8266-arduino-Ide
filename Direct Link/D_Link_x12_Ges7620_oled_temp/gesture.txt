@@ -1,0 +1,15 @@
+directLink controlled by gestures
+
+0.96" Oled I2C 128x64 0x3C
+Paj7620 gesture sensor
+1 direct link to display temperature on Oled
+1 direct link to display temperature and humidity on Oled
+6 channels (12 Link) turned on-off
+move left or right select channel
+upward movement sends link up  1-6
+downward movement sends link down 1-6
+Wifi config D3 (Gpio 0) 5 seconds
+SCL = D1 (Gpio 5)
+SDA = D2 (Gpio 4)
+
+
