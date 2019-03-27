@@ -1,0 +1,42 @@
+esp8266
+Gpio 5(D1) -- SCL
+Gpio 4(D2) -- SDA
+Gpio 2(D4) -- Led (turn on when some sensor is touched)
+
+Mcp23017
+in VCC -- +3.3
+in Gnd-a0-a1-a2 --GND
+SCL -- esp Gpio 5(D1)
+SDA -- esp Gpio 4(D2)
+Gpio A0 -- Out  1
+Gpio A1 -- Out  2
+Gpio A2 -- Out  3
+Gpio A3 -- Out  4
+Gpio A4 -- Out  5
+Gpio A5 -- Out  6
+Gpio A6 -- Out  7
+Gpio A7 -- Out  8
+Gpio B0 -- Out  9
+Gpio B1 -- Out 10
+Gpio B2 -- Out 11
+Gpio B3 -- Out 12
+
+Mpr121
+in VCC -- +3.3
+in Gnd --GND
+SCL -- esp Gpio 5(D1)
+SDA -- esp Gpio 4(D2)
+0-11 -- touch sensor
+
+// CFG MODE - SWITCH
+
+To bring the device into configuration mode, in this case press Reset_Button  2 times
+When in configuration mode, the device goes into Access Point mode.
+
+In order to enter or change the settings, you need to:
+
+- Sign in at https://cloud.supla.org (registration is free of charge)
+- Connect to WiFi called "Supla_MPR121” from any computer with a wireless network card and Internet browser.
+- Open access page: http://192.168.4.1
+- Enter user name and password to the WiFi through which the device will get Internet access.
+- Enter Server address, Location ID and Location Password, which will be provided once you sign in at cloud.supla.org
