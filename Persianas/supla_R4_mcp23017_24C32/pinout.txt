@@ -1,0 +1,51 @@
+esp8266
+Gpio16(D0) --Status Led (conect to +3.3v whit 220ohm)
+Gpio 5(D1) --SCL  Mcp23017
+Gpio 4(D2) --SDA  Mcp23017
+Gpio 3(RX) --Sensor 1 PULLUP
+Gpio14(D5) --Sensor 2 PULLUP
+Gpio12(D6) --Sensor 3 PULLUP
+Gpio13(D7) --Sensor 4 PULLUP
+Gpio 2(D4) --Mcp23017-Reset
+
+Mcp23017
+Gpio A0 --Relay 1 Shut
+Gpio A1 --Relay 1 Reveal
+Gpio A2 --Relay 2 Shut
+Gpio A3 --Relay 2 Reveal
+Gpio A4 --Relay 3 Shut
+Gpio A5 --Relay 3 Reveal
+Gpio A6 --Relay 4 Shut
+Gpio A7 --Relay 4 Reveal
+
+Gpio B0 --Button 1 Reveal
+Gpio B1 --Button 1 Shut
+Gpio B2 --Button 2 Reveal
+Gpio B3 --Button 2 Shut
+Gpio B4 --Button 3 Reveal
+Gpio B5 --Button 3 Shut
+Gpio B6 --Button 4 Reveal
+Gpio B7 --Button 4 Shut
+
+24C32
+Pin 1 -- Gnd
+Pin 2 -- Gnd
+Pin 3 -- Gnd
+Pin 4 -- Gnd
+Pin 5 -- SDA - Esp Gpio 4(D2)
+Pin 6 -- SCL - Esp Gpio 5(D1)
+Pin 7 -- Gnd
+Pin 8 -- Vcc +3.3V
+
+// CFG MODE - SWITCH
+
+To bring the device into configuration mode, in this case press Reset_Button  2 times
+When in configuration mode, the device goes into Access Point mode.
+
+In order to enter or change the settings, you need to:
+
+- Sign in at https://cloud.supla.org (registration is free of charge)
+- Connect to WiFi called „Supla R4” from any computer with a wireless network card and Internet browser.
+- Open access page: http://192.168.4.1
+- Enter user name and password to the WiFi through which the device will get Internet access.
+- Enter Server address, Location ID and Location Password, which will be provided once you sign in at cloud.supla.org
