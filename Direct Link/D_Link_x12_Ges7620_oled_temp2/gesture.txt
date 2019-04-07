@@ -1,0 +1,35 @@
+directLink controlled by gestures
+
+0.96" Oled I2C 
+Paj7620 gesture sensor
+6 channels (12 Link) turned on-off
+1 channel to show temperature on OLED
+1 channel to show temperature and humidity on OLED
+move left or right select channel
+upward movement sends link up  1-4
+downward movement sends link down 1-4
+Wifi config D3 (Gpio 0) 5 seconds
+SCL = D1 (Gpio 5)
+SDA = D2 (Gpio 4)
+
+https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/Direct%20Link/D_Link_x12_Ges7620_oled_temp2/gesture_bb.png
+
+https://youtu.be/QPtxDJUXq3Q
+
+To bring the device into configuration mode, in this case hold Gpio0 (D3) for 5 seconds
+When in configuration mode, the device goes into Access Point mode.
+- Connect to WiFi called „GestureLink12t” from any computer with a wireless network card and Internet browser.
+- Open access page: http://192.168.4.1
+- Enter user name and password to the WiFi through which the device will get Internet access.
+- Enter your supla server (svrXX.supla.org) or ip for private server.
+- Enter location 1-6 = name your want tu display with the corresponding link(max 10 character).
+- Enter your direct links for the corresponding location.
+
+CreystalFreq 26M 
+SPI SPEED 40 MHz 
+SPI MODE DOUT 
+BAUDRATE 11520 
+FLASH SIZE 16Mbit (2MByte)
+
+https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/Persianas/supla_R4_mcp23017_24C32/flashtool16Mbit.png
+
