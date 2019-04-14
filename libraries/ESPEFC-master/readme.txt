@@ -1,0 +1,1 @@
+<ESPEFC.h> modification of ESP8266HTTPUpdateServer that includes erases flash and wifi credentials
