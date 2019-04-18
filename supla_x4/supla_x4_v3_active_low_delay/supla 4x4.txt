@@ -1,0 +1,22 @@
+Relay1 - GPIO12 D6
+Relay2 - GPIO5  D1
+Relay3 - GPIO4  D2
+Relay4 - GPIO15 D8
+
+BTN1 / CFG - GPIO0 D3
+BTN2 - GPIO9    SD2
+BTN3 - GPIO10   SD3
+BTN4 - GPIO14    D5
+DS18B20 - GPIO2
+Status Led GPIO 3 RX  ---connected with resistance 220 ohm to + 3.3v
+Blink 0.2 "= wifi config
+Blink 0.8 "= connecting wifi
+To enter wifi config press and hold BTN1 (D3) 5 seconds
+
+In order to enter or change the settings, you need to:
+
+- Sign in at https://cloud.supla.org (registration is free of charge)
+- Connect to WiFi called "Supla x4” from any computer with a wireless network card and Internet browser.
+- Open access page: http://192.168.4.1
+- Enter user name and password to the WiFi through which the device will get Internet access.
+- Enter Server address, Location ID and Location Password, which will be provided once you sign in at cloud.supla.org
