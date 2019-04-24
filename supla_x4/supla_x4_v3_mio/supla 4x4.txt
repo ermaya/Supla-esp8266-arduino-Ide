@@ -1,0 +1,26 @@
+Relay1 - GPIO12 
+Relay2 - GPIO13 
+Relay3 - GPIO14 
+Relay4 - GPIO15 
+
+BTN1 / CFG - GPIO0 
+BTN2 - GPIO2    
+BTN3 - GPIO4
+BTN4 - GPIO5
+
+Status Led GPIO 16  ---connected with resistance 220 ohm to + 3.3v
+Blink 0.2 "= wifi config
+Blink 0.8 "= connecting wifi
+
+Stair.Delay 1 and 2 are for stair timer for channel 1 and 2.
+enter 0 to turn off or the number of seconds after which the channel is turned off when a button has been pressed (
+only valid for local buttons, the time of the App is set on the server)
+
+To enter wifi config press and hold BTN1 (Gpio 0) 5 seconds
+In order to enter or change the settings, you need to:
+
+- Sign in at https://cloud.supla.org (registration is free of charge)
+- Connect to WiFi called "Supla x4” from any computer with a wireless network card and Internet browser.
+- Open access page: http://192.168.4.1
+- Enter user name and password to the WiFi through which the device will get Internet access.
+- Enter Server address, Location ID and Location Password, which will be provided once you sign in at cloud.supla.org
