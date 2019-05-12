@@ -1,0 +1,6 @@
+some examples of how to change the Chip ID in Compiled Software.
+all the included examples have the same ID "44-55-66".
+You can change at will.
+open the file with a hex editor and look for the ID (44-55-66 for this examples) in the reverse direction 66 55 44 (with spaces)  edit with the ID you want (remember the reverse order) 
+for example: Mac xx xx xx 12 34 56 will be 56 34 12 in the file.
+
