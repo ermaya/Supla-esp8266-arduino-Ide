@@ -34,4 +34,4 @@ Gpio 4 ; //D2     // triger Link 2
 Gpio 14; //D5     // triger Link 3
 Gpio 12; //D6     // triger Link 4
 
-<img src="thermostat_Remote_oled_bb.png" width="700"
+<img src="https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/Direct%20Link/D_Link_Termostat_Remote_btn/thermostat_Remote_oled_bb.png" width="700"
