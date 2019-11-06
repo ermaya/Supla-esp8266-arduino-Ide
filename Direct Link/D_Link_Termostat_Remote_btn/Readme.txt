@@ -1,7 +1,7 @@
 Remote control for Supla Thermostat based on DirectLink
-
-<img src="https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/Direct%20Link/D_Link_Termostat_Remote_btn/Oled.jpg" alt="oeLab" width="390">
-
+<br/>
+<img src="https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/Direct%20Link/D_Link_Termostat_Remote_btn/Oled.jpg" class="center" width="312"/>
+<br/>
 With Oled display and buttons for Automatic/Manual, Manual On/Off, thermostat setting -0.5º and + 0.5º
 
 operation with both the thermostat with or without OLED
