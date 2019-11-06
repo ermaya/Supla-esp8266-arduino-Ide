@@ -1,12 +1,14 @@
-DirectLink remote control for Supla Thermostat
-
 Remote control for Supla Thermostat based on DirectLink
+
+[img]https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/Direct%20Link/D_Link_Termostat_Remote_btn/Oled.jpg[/img]
 
 With Oled display and buttons for Automatic/Manual, Manual On/Off, thermostat setting -0.5º and + 0.5º
 
 operation with both the thermostat with or without OLED
+
 without OLED:
 https://forum.supla.org/viewtopic.php?f=10&t=5294
+
 with OLED
 https://forum.supla.org/viewtopic.php?f=10&t=5320
 
@@ -22,8 +24,14 @@ D_Link_3 --- paste the DirectLink corresponding to the thermostat setting channe
 Link Temp -- paste the DirectLink corresponding to the temperature channel.
 Link Ther -- paste the DirectLink corresponding to the thermostat channel.
 
+[img]https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/Direct%20Link/D_Link_Termostat_Remote_btn/wifimanager.jpg[/img]
+
 Gpio:
+Gpio 0 ; //D3-SDA  
+Gpio 2 ; //D4-SCL
 Gpio 5 ; //D1     // triger Link 1  and wifi config 
 Gpio 4 ; //D2     // triger Link 2
 Gpio 14; //D5     // triger Link 3
 Gpio 12; //D6     // triger Link 4
+
+[img]https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/Direct%20Link/D_Link_Termostat_Remote_btn/thermostat_Remote_oled_bb.png[/img]
