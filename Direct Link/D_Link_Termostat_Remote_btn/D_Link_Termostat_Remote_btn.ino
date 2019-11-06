@@ -1,0 +1,634 @@
+#include <FS.h>       // ---- esp board manager 2.4.2 --- iwip Variant V2 higher Bandwidth
+#include <WiFiClientSecure.h>
+#include <ESP8266WiFi.h>
+#include <DNSServer.h>
+#include <WiFiManager.h>     //--------- https://github.com/tzapu/WiFiManager/tree/0.14 -------------
+#include <ArduinoJson.h>     //--------- https://github.com/bblanchon/ArduinoJson/tree/v5.13.2 ------
+
+//#define D0 16  //no internal pullup resistor
+//#define D1  5
+//#define D2  4
+//#define D3  0  //must not be pulled low during power on/reset, toggles value during boot
+//#define D4  2  //must not be pulled low during power on/reset, toggles value during boot
+//#define D5 14
+//#define D6 12
+//#define D7 13
+//#define D8 15  //must not be pulled high during power on/reset
+
+int button_1 = 5 ; //D1     // triger Link 1  and wifi config 
+int button_2 = 4 ; //D2     // triger Link 2
+int button_3 = 14; //D5     // triger Link 3
+int button_4 = 12; //D6     // triger Link 4
+#define BTN_COUNT 4
+//#include "SSD1306Wire.h" //----- 0.96 Oled --- https://github.com/ThingPulse/esp8266-oled-ssd1306
+//SSD1306Wire  display(0x3c, 0, 2);  // D3-SDA  D4-SCL ----- 0.96 Oled ---
+#include "SH1106Wire.h" //----- 1.3 Oled ---
+SH1106Wire display(0x3c, 0, 2);  // D3-SDA  D4-SCL ----- 1.3 Oled ---
+
+const char* host = ".org";
+const int httpsPort = 443;
+const char* fingerprint = "CF 05 98 89 CA FF 8E D8 5E 5C E0 C2 E4 F7 E6 C3 C7 50 DD 5C";
+char Supla_server[20];
+char D_Link_1[61];
+char D_Link_2[61];
+char D_Link_3[61];
+char Link_T[61];
+char Link_T2[61];
+byte mac[6];
+String url = "/direct";
+bool shouldSaveConfig = false;
+bool initialConfig = false;
+bool dimm = false;         
+unsigned long dimm_milis ;
+bool Read1on = false;
+bool Read2on = false;
+bool onsend = false;
+bool pr_wifi = false;
+bool can1 = false;
+bool can2 = false;
+int Temp_mtbs = 5000;                //Temperature update interval 5 seconds
+unsigned long Temp_lasttime; 
+int TempDisp_mtbs = 2500;                //Temperature display interval 2.5 seconds
+unsigned long TempDisp_lasttime; 
+int lcd_n = 0;
+int up_n = 0;
+double Temp = -127.0;
+double Temp2 = -127.0;
+unsigned long wifi_checkDelay = 20000;  // wifi reconnect delay tray to reconnect every 20 seconds ------------ Wi-Fi podłącz tacę opóźniającą, aby ponownie połączyć się co 20 sekund
+unsigned long wifimilis;   // 
+int C_W_state = HIGH;            
+int last_C_W_state = HIGH;       
+unsigned long time_last_C_W_change = 0;   
+long C_W_delay = 10000;               // config delay 10 seconds  ------------ opóźnienie konfiguracji 10 sekund
+int row = 0;
+int timeout  = 180; // seconds to run for
+
+const uint8_t logo32_glcd_bmp[] PROGMEM =  //logo supla 32
+{
+  0x00,0x00,0x00,0x00,0xC0,0x1F,0x00,0x00,0xE0,0x7F,0x00,0x00,
+  0xF0,0x70,0x00,0x00,0x30,0xE0,0x00,0x00,0x38,0xC0,0x00,0x00,
+  0x18,0xC0,0x01,0x00,0x18,0xC0,0x01,0x00,0x38,0xC0,0x00,0x00,
+  0x38,0xE0,0x01,0x00,0x70,0xF0,0x07,0x00,0xE0,0x7F,0x0E,0x00,
+  0xC0,0x3F,0x38,0x00,0x00,0x1F,0xE0,0x0F,0x00,0x18,0xC0,0x1F,
+  0x00,0x18,0xC0,0x30,0x00,0x18,0xC0,0x30,0x00,0x30,0xC0,0x30,
+  0x00,0x30,0x80,0x1F,0x00,0x30,0xC0,0x0F,0x00,0x20,0x60,0x00,
+  0x00,0x60,0x20,0x00,0x00,0x60,0x30,0x00,0x00,0x40,0x18,0x00,
+  0x00,0xC0,0x0D,0x00,0x00,0xC0,0x07,0x00,0x00,0x60,0x04,0x00,
+  0x00,0x20,0x0C,0x00,0x00,0x20,0x0C,0x00,0x00,0x60,0x06,0x00,
+  0x00,0xC0,0x03,0x00,0x00,0x00,0x00,0x00
+};
+const uint8_t logo16_wifi_bmp[] PROGMEM =  //logo wifi 16
+{
+  0x00,0x00,0x00,0x00,0xE0,0x07,0x38,0x1C,0xC4,0x23,0x72,0x4E,
+  0x08,0x10,0xE4,0x27,0x10,0x0C,0x90,0x09,0x40,0x02,0x60,0x06,
+  0x40,0x02,0x80,0x01,0x00,0x00,0x00,0x00
+};
+const uint8_t logo16_supla_bmp[] PROGMEM =  //logo supla 16
+{
+  0x30,0x00,0x7C,0x00,0xC4,0x00,0x86,0x00,0x84,0x00,0xDC,0x03,
+  0x78,0x36,0x60,0x78,0x40,0x48,0x40,0x38,0x40,0x04,0x80,0x06,
+  0x80,0x03,0x40,0x02,0xC0,0x03,0x00,0x01
+};
+
+const uint8_t logo_Power_off[] PROGMEM =  //Power off
+{
+  0xe0, 0xff, 0xff, 0xff, 0x03, 0x38, 0xfc, 0xff, 0xff, 0x0f, 0x0c, 0xf0,
+   0xff, 0xff, 0x3f, 0x06, 0xe0, 0xff, 0xff, 0x3f, 0x02, 0xc0, 0xcf, 0x43,
+   0x78, 0x03, 0xc0, 0x33, 0x43, 0x78, 0x01, 0xc0, 0x7b, 0x7b, 0xff, 0x01,
+   0x80, 0xfd, 0x42, 0xf8, 0x01, 0x80, 0xfd, 0x42, 0xf8, 0x01, 0x80, 0x7b,
+   0x7b, 0xff, 0x03, 0xc0, 0x33, 0x7b, 0xff, 0x02, 0xc0, 0xcf, 0x7b, 0x7f,
+   0x06, 0xe0, 0xff, 0xff, 0x7f, 0x0c, 0xf0, 0xff, 0xff, 0x3f, 0x18, 0xfc,
+   0xff, 0xff, 0x1f, 0xf0, 0xff, 0xff, 0xff, 0x07, 
+};
+const uint8_t logo_Power_on[] PROGMEM =  //Power on
+{
+   0xe0, 0xff, 0xff, 0xff, 0x07, 0x38, 0x00, 0x00, 0x30, 0x0c, 0x0c, 0x00,
+   0x00, 0x18, 0x18, 0x06, 0x00, 0x00, 0x0c, 0x30, 0x02, 0x0e, 0x00, 0x06,
+   0x60, 0x03, 0x9f, 0x19, 0x02, 0x40, 0x81, 0xb1, 0x1b, 0x03, 0xc0, 0x81,
+   0xa0, 0x1a, 0x01, 0x80, 0x81, 0xa0, 0x1e, 0x01, 0x80, 0x81, 0xb1, 0x1c,
+   0x01, 0xc0, 0x03, 0x9b, 0x18, 0x03, 0x40, 0x02, 0x8e, 0x18, 0x02, 0x60,
+   0x06, 0x00, 0x00, 0x06, 0x20, 0x0c, 0x00, 0x00, 0x0c, 0x38, 0x38, 0x00,
+   0x00, 0x18, 0x0c, 0xe0, 0xff, 0xff, 0xff, 0x07,
+};
+typedef struct {  //------------------------------------------- BTN ----------------------------------------------------
+  int pin;
+  char last_val;
+  unsigned long last_time;
+} _btn_t;
+
+_btn_t btn[BTN_COUNT];
+void btn_init() {
+  for(int a=0;a<BTN_COUNT;a++)
+    if (btn[a].pin > 0) {
+        pinMode(btn[a].pin-1, INPUT_PULLUP);
+        btn[a].last_val = digitalRead(btn[a].pin-1);
+        btn[a].last_time = millis();
+    }
+}
+void saveConfigCallback () {
+  Serial.println("Should save config");
+  shouldSaveConfig = true;
+}
+void ondemandwifiCallback () {
+          display.clear();
+          display.setContrast(100, 241, 64);
+          display.setTextAlignment(TEXT_ALIGN_CENTER);
+          display.setFont(ArialMT_Plain_10);
+          display.drawString(64, 16, "wifi config connect");
+          display.drawString(64, 28, "to wifi hotspot");
+          display.setFont(ArialMT_Plain_16);
+          display.drawString(64, 44, "RemoteThermostat"); 
+          display.display();    
+  WiFiManagerParameter custom_Supla_server("server", "supla server", Supla_server, 20);
+  WiFiManagerParameter custom_D_Link_1("LinkA", "D_Link_1", D_Link_1, 61);
+  WiFiManagerParameter custom_D_Link_2("LinkB", "D_Link_2", D_Link_2, 61);
+  WiFiManagerParameter custom_D_Link_3("LinkC", "D_Link_3", D_Link_3, 61);
+  WiFiManagerParameter custom_Link_T("LinkTemp", "Link Temp..", Link_T, 61);
+  WiFiManagerParameter custom_Link_T2("LinkTher", "Link Ther..", Link_T2, 61);
+ 
+  WiFiManager wifiManager;
+
+  wifiManager.setSaveConfigCallback(saveConfigCallback);
+  
+  wifiManager.addParameter(&custom_Supla_server);
+  wifiManager.addParameter(&custom_D_Link_1);
+  wifiManager.addParameter(&custom_D_Link_2);
+  wifiManager.addParameter(&custom_D_Link_3);
+  wifiManager.addParameter(&custom_Link_T);
+  wifiManager.addParameter(&custom_Link_T2);
+
+  wifiManager.setCustomHeadElement("<style>html{ background-color: #01DF3A;margin-left: auto; margin-right: auto;width:60%;}</style><div class='s'><svg version='1.1' id='l' x='0' y='0' viewBox='0 0 200 200' xml:space='preserve'><path d='M59.3,2.5c18.1,0.6,31.8,8,40.2,23.5c3.1,5.7,4.3,11.9,4.1,18.3c-0.1,3.6-0.7,7.1-1.9,10.6c-0.2,0.7-0.1,1.1,0.6,1.5c12.8,7.7,25.5,15.4,38.3,23c2.9,1.7,5.8,3.4,8.7,5.3c1,0.6,1.6,0.6,2.5-0.1c4.5-3.6,9.8-5.3,15.7-5.4c12.5-0.1,22.9,7.9,25.2,19c1.9,9.2-2.9,19.2-11.8,23.9c-8.4,4.5-16.9,4.5-25.5,0.2c-0.7-0.3-1-0.2-1.5,0.3c-4.8,4.9-9.7,9.8-14.5,14.6c-5.3,5.3-10.6,10.7-15.9,16c-1.8,1.8-3.6,3.7-5.4,5.4c-0.7,0.6-0.6,1,0,1.6c3.6,3.4,5.8,7.5,6.2,12.2c0.7,7.7-2.2,14-8.8,18.5c-12.3,8.6-30.3,3.5-35-10.4c-2.8-8.4,0.6-17.7,8.6-22.8c0.9-0.6,1.1-1,0.8-2c-2-6.2-4.4-12.4-6.6-18.6c-6.3-17.6-12.7-35.1-19-52.7c-0.2-0.7-0.5-1-1.4-0.9c-12.5,0.7-23.6-2.6-33-10.4c-8-6.6-12.9-15-14.2-25c-1.5-11.5,1.7-21.9,9.6-30.7C32.5,8.9,42.2,4.2,53.7,2.7c0.7-0.1,1.5-0.2,2.2-0.2C57,2.4,58.2,2.5,59.3,2.5z M76.5,81c0,0.1,0.1,0.3,0.1,0.6c1.6,6.3,3.2,12.6,4.7,18.9c4.5,17.7,8.9,35.5,13.3,53.2c0.2,0.9,0.6,1.1,1.6,0.9c5.4-1.2,10.7-0.8,15.7,1.6c0.8,0.4,1.2,0.3,1.7-0.4c11.2-12.9,22.5-25.7,33.4-38.7c0.5-0.6,0.4-1,0-1.6c-5.6-7.9-6.1-16.1-1.3-24.5c0.5-0.8,0.3-1.1-0.5-1.6c-9.1-4.7-18.1-9.3-27.2-14c-6.8-3.5-13.5-7-20.3-10.5c-0.7-0.4-1.1-0.3-1.6,0.4c-1.3,1.8-2.7,3.5-4.3,5.1c-4.2,4.2-9.1,7.4-14.7,9.7C76.9,80.3,76.4,80.3,76.5,81z M89,42.6c0.1-2.5-0.4-5.4-1.5-8.1C83,23.1,74.2,16.9,61.7,15.8c-10-0.9-18.6,2.4-25.3,9.7c-8.4,9-9.3,22.4-2.2,32.4c6.8,9.6,19.1,14.2,31.4,11.9C79.2,67.1,89,55.9,89,42.6z M102.1,188.6c0.6,0.1,1.5-0.1,2.4-0.2c9.5-1.4,15.3-10.9,11.6-19.2c-2.6-5.9-9.4-9.6-16.8-8.6c-8.3,1.2-14.1,8.9-12.4,16.6C88.2,183.9,94.4,188.6,102.1,188.6z M167.7,88.5c-1,0-2.1,0.1-3.1,0.3c-9,1.7-14.2,10.6-10.8,18.6c2.9,6.8,11.4,10.3,19,7.8c7.1-2.3,11.1-9.1,9.6-15.9C180.9,93,174.8,88.5,167.7,88.5z'/></svg>");
+  wifiManager.setBreakAfterConfig(true);
+  wifiManager.setMinimumSignalQuality();
+
+    wifiManager.setConfigPortalTimeout(timeout);
+
+    if (!wifiManager.startConfigPortal("Remote_Thermostat")) {
+      Serial.println("failed to connect and hit timeout");
+      delay(3000);
+      ESP.restart();
+      delay(5000);
+    }
+    Serial.println("connected...yeey :)");
+    
+    strcpy(Supla_server, custom_Supla_server.getValue());
+    strcpy(D_Link_1, custom_D_Link_1.getValue());
+    strcpy(D_Link_2, custom_D_Link_2.getValue());
+    strcpy(D_Link_3, custom_D_Link_3.getValue());
+    strcpy(Link_T, custom_Link_T.getValue());  
+    strcpy(Link_T2, custom_Link_T2.getValue());
+    
+    WiFi.softAPdisconnect(true);   //  close AP
+}
+void TH_Overlay() {
+
+  display.clear();
+   if (Temp > -100){
+         display.setFont(ArialMT_Plain_24);
+         display.setTextAlignment(TEXT_ALIGN_CENTER);
+         display.drawString(64, 20, String(Temp, 2) + "ºC"); 
+   }else{
+         display.setFont(ArialMT_Plain_24);
+         display.setTextAlignment(TEXT_ALIGN_CENTER);
+         display.drawString(64, 20, "-----"); 
+   }
+ if (Read1on == true){ 
+   if (can1 == 1){
+         display.setFont(ArialMT_Plain_16);
+         display.setTextAlignment(TEXT_ALIGN_CENTER);
+         display.drawString(64, 48, "Auto Set " + String(Temp2, 1) + "ºC"); 
+   }else{
+         display.setFont(ArialMT_Plain_16);
+         display.setTextAlignment(TEXT_ALIGN_CENTER);
+         display.drawString(64, 48, "Manual mode"); 
+  } } 
+  if (pr_wifi == true){
+               display.drawXbm(1, 0, 16, 16, logo16_wifi_bmp);// -------------------------------------------------- oled wifi ok  -------- 
+  }
+  if (onsend == true){            
+               display.drawXbm(24, 0, 16, 16, logo16_supla_bmp);// ------------------------------------------------ oled supla ok --------                                 
+  }
+  if (Read2on == true){
+     if (can2 == 0){
+         display.drawXbm(86, 0, 40, 16, logo_Power_off);// ------------------------------------------------- Relay off  --------   
+     }
+     if (can2 == 1){
+         display.drawXbm(86, 0, 40, 16, logo_Power_on);// -------------------------------------------------- Relay on  --------- 
+     }  } 
+  display.display();
+  yield();
+  TempDisp_lasttime = millis();  
+}
+void iterate_btn() {
+  char v;
+  unsigned long now = millis();
+  {
+  for(int a=0;a<4;a++)
+    if (btn[a].pin > 0) {
+        v = digitalRead(btn[a].pin-1);
+        if (v != btn[a].last_val && now - btn[a].last_time ) {
+           btn[a].last_val = v;
+           btn[a].last_time = now;
+           delay(75);
+           v = digitalRead(btn[a].pin-1);
+           if (v==0)
+           if (dimm == true){
+            dimm_milis = millis() + 15000 ;
+            display.setContrast(100, 230, 60);
+            dimm = false;
+            TH_Overlay();
+             return;  
+           }else{  
+            if (a == 0){
+                  onsend = true;
+                  TH_Overlay(); 
+                  url = D_Link_1;
+                  url = (url  + "/toggle");
+                  direct_Link();
+                  //delay(100);
+                  D_Link_read();
+                  dimm_milis = millis() + 15000 ; 
+                   return;
+           }
+             if (a == 1){
+                  onsend = true;
+                  TH_Overlay(); 
+                  url = D_Link_2;
+                  url = (url  + "/toggle");
+                  direct_Link();
+                  //delay(100);
+                  D_Link_read2();
+                  dimm_milis = millis() + 15000 ; 
+                   return;                        
+              }
+                if (a == 2 ) { 
+                  onsend = true;
+                  TH_Overlay();  
+                  url = D_Link_3;
+                  url = (url + "/turn-off");
+                  direct_Link(); 
+                  Temp2_D_Link();
+                  dimm_milis = millis() + 15000 ;
+                   return;
+                 } 
+              if (a == 3 ) {
+                  onsend = true;
+                  TH_Overlay();  
+                  url = D_Link_3;
+                  url = (url + "/turn-on");
+                  direct_Link();
+                  Temp2_D_Link();
+                  dimm_milis = millis() + 15000 ;
+                   return;
+                 }        
+             }}
+      }
+    }
+}
+void setup() {  //------------------------------------------------ Setup ----------------------------------------------
+
+  Serial.begin(115200);
+
+   memset(btn, 0, sizeof(btn));
+  btn[0].pin =button_1 +1;          // pin gpio buton  +1
+  btn[1].pin =button_2 +1;          // pin gpio buton  +1
+  btn[2].pin =button_3 +1;          // pin gpio buton  +1
+  btn[3].pin =button_4 +1;          // pin gpio buton  +1  
+  btn_init();
+  
+ display.init();
+  display.flipScreenVertically();
+   display.setFont(ArialMT_Plain_10);
+     display.clear();
+      display.setFont(ArialMT_Plain_24);
+       display.drawString(33, 40, "SUPLA");
+         display.drawXbm(0, 16, 32, 32,logo32_glcd_bmp );
+          display.display();
+ 
+  if (WiFi.SSID()==""){ initialConfig = true;} 
+      
+  Serial.println("mounting FS...");  
+  if (SPIFFS.begin()) {
+    Serial.println("mounted file system");
+    if (SPIFFS.exists("/config.json")) {
+      Serial.println("reading config file");
+      File configFile = SPIFFS.open("/config.json", "r");
+      if (configFile) {
+        Serial.println("opened config file");
+        size_t size = configFile.size();
+        std::unique_ptr<char[]> buf(new char[size]);
+        configFile.readBytes(buf.get(), size);
+        DynamicJsonBuffer jsonBuffer;         
+        JsonObject& json = jsonBuffer.parseObject(buf.get());
+        Serial.println(jsonBuffer.size());
+        json.printTo(Serial);
+        if (json.success()) {
+          Serial.println("\nparsed json");
+          strcpy(Supla_server, json["Supla_server"]);
+          strcpy(D_Link_1, json["D_Link_1"]);
+          strcpy(D_Link_2, json["D_Link_2"]);
+          strcpy(D_Link_3, json["D_Link_3"]);
+          strcpy(Link_T, json["Link_T"]);
+          strcpy(Link_T2, json["Link_T2"]);
+        } else {Serial.println("failed to load json config");}                       
+      }
+    }
+  } else {Serial.println("failed to mount FS");}
+      
+  host = Supla_server;
+  WiFi.mode(WIFI_STA);
+  dimm_milis = millis() + 15000;
+}
+
+void loop() { 
+    if  (initialConfig)  {
+    ondemandwifiCallback () ;
+    initialConfig = false; 
+  }
+  
+  if (millis() > dimm_milis){ 
+    if (dimm == false){
+    display.setContrast(50, 50, 30);
+    display.display();
+    dimm = true ;     
+    }    
+    dimm_milis = millis() + 15000 ;
+     } 
+    
+  if (WiFi.status() != WL_CONNECTED) 
+   {
+    pr_wifi = false;
+    WiFi_up();
+   }  
+   
+   iterate_btn();
+   
+   int C_W_read = digitalRead(button_1);{    
+   if (C_W_read != last_C_W_state) {            
+     time_last_C_W_change = millis();
+   }
+   if ((millis() - time_last_C_W_change) > C_W_delay) {     
+     if (C_W_read != C_W_state) {     
+       Serial.println("Triger sate changed");
+       C_W_state = C_W_read;       
+       if (C_W_state == LOW) {
+        ondemandwifiCallback () ;
+       }
+     }
+    }
+   last_C_W_state = C_W_read;            
+   }
+   
+    if (millis() > Temp_lasttime + Temp_mtbs)  {    //-------------Temp_lasttime--------------------
+
+     if (up_n < 5) { up_n = up_n +1;}
+             
+     if (up_n == 5) {up_n = 1;}
+              
+     if (up_n == 1){
+      onsend = true;
+      TH_Overlay();
+      Temp_D_Link();
+     }
+     if (up_n == 2){
+      onsend = true;
+      TH_Overlay();
+      Temp2_D_Link();
+     }
+     if (up_n == 3){
+      onsend = true;
+      TH_Overlay();
+      D_Link_read();
+     }
+     if (up_n == 4){
+      onsend = true;
+      TH_Overlay();
+      D_Link_read2();
+     }      
+    Temp_lasttime = millis();
+  }
+
+  if (shouldSaveConfig) {
+    Serial.println("saving config");
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& json = jsonBuffer.createObject();
+    json["Supla_server"] = Supla_server;
+    json["D_Link_1"] = D_Link_1;
+    json["D_Link_2"] = D_Link_2;
+    json["D_Link_3"] = D_Link_3;
+    json["Link_T"] = Link_T;
+    json["Link_T2"] = Link_T2;
+    File configFile = SPIFFS.open("/config.json", "w");
+    if (!configFile) {Serial.println("failed to open config file for writing");}    
+    json.prettyPrintTo(Serial);
+    json.printTo(configFile);
+    configFile.close();
+    Serial.println("config saved");
+    shouldSaveConfig = false;
+    WiFi.mode(WIFI_STA);
+    delay(3000);
+    ESP.restart();
+    delay(5000); 
+    }
+    
+  if (millis() > TempDisp_lasttime + TempDisp_mtbs)  {    //-------------TempDisp_lasttime--------------------
+    TH_Overlay();
+  }
+}
+void WiFi_up() { 
+  if (millis() > wifimilis)  {
+  WiFi.begin(); 
+  for (int x = 20; x > 0; x--) 
+  {
+    if (x == 1){
+    wifimilis = (millis() + wifi_checkDelay) ; 
+    }           
+    if (WiFi.status() == WL_CONNECTED) 
+    { 
+     pr_wifi = true;
+     break;                   
+    } else{
+     delay(500);   
+      Serial.print(".");                                         
+    }    
+  }
+  if (WiFi.status() == WL_CONNECTED)
+  {
+    pr_wifi = true;
+    Serial.println("");
+    Serial.println("Connected");
+    Serial.println("Adres IP: ");
+    Serial.print(WiFi.localIP());
+    Serial.print(" / ");
+    Serial.print(WiFi.subnetMask());
+    Serial.print(" / ");
+    Serial.println(WiFi.gatewayIP());
+    long rssi = WiFi.RSSI();
+    Serial.print("(RSSI): ");
+    Serial.print(rssi);
+    Serial.println(" dBm");
+    onsend = true;
+      TH_Overlay();
+      Temp_D_Link();
+      Temp2_D_Link();
+      url = D_Link_1;
+      D_Link_read();
+      url = D_Link_2;
+      D_Link_read2();     
+  }
+  if (WiFi.status() != WL_CONNECTED) 
+  {
+    Serial.println("");
+    Serial.println("connection failed");
+    pr_wifi = false;
+  } 
+ }
+}
+void direct_Link() {
+  
+  WiFiClientSecure client;  
+  if (!client.connect(host, httpsPort)) {
+    Serial.println("connection failed");
+    return;
+  }
+  client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+               "Host: " + host + "\r\n" +
+               "User-Agent: ESP8266\r\n" +
+               "Connection: close\r\n\r\n");
+  while (client.connected()) {
+    String line = client.readStringUntil('\n');
+    if (line == "\r") {
+      break;
+    }
+  }
+  String line = client.readStringUntil('}');
+  line = line + "}";
+  if (line.indexOf("true") >0) {  
+  } else {
+    Serial.println("failed");
+  }
+   onsend = false;
+   TH_Overlay();      
+}
+void Temp_D_Link() {
+  url = Link_T; 
+  WiFiClientSecure client;
+  if (!client.connect(host, httpsPort)) {
+    Serial.println("connection failed");
+    return;
+  }
+  client.print(String("GET ") + url + "/read" + " HTTP/1.1\r\n" +
+               "Host: " + host + "\r\n" +
+               "User-Agent: ESP8266\r\n" +
+               "Connection: close\r\n\r\n");
+  while (client.connected()) {
+    String line = client.readStringUntil('\n');
+    if (line == "\r") {
+      break;
+    }
+  }
+  String line = client.readStringUntil('}');
+  line = line + "}";
+  DynamicJsonBuffer  jsonBuffer(200);
+    JsonObject& root = jsonBuffer.parseObject(line);
+  if (!root.success()) {
+    Serial.println("parseObject() failed");
+    return;
+  }
+  Temp = root["temperature"];
+  onsend = false;
+  TH_Overlay();
+}
+void Temp2_D_Link() {
+  url = Link_T2;
+  WiFiClientSecure client;
+  if (!client.connect(host, httpsPort)) {
+    Serial.println("connection failed");
+    return;
+  }
+  client.print(String("GET ") + url + "/read" + " HTTP/1.1\r\n" +
+               "Host: " + host + "\r\n" +
+               "User-Agent: ESP8266\r\n" +
+               "Connection: close\r\n\r\n");
+  while (client.connected()) {
+    String line = client.readStringUntil('\n');
+    if (line == "\r") {
+      break;
+    }
+  }
+  String line = client.readStringUntil('}');
+  line = line + "}";
+  DynamicJsonBuffer  jsonBuffer(200);
+    JsonObject& root = jsonBuffer.parseObject(line);
+  if (!root.success()) {
+    Serial.println("parseObject() failed");
+    return;
+  }
+  Temp2 = root["temperature"];
+  onsend = false;
+  TH_Overlay();
+}
+void D_Link_read() {
+  url = D_Link_1;
+  WiFiClientSecure client;
+  if (!client.connect(host, httpsPort)) {
+    Serial.println("connection failed");
+    Read1on = false;
+    return;
+  }
+  client.print(String("GET ") + url + "/read" + " HTTP/1.1\r\n" +
+               "Host: " + host + "\r\n" +
+               "User-Agent: ESP8266\r\n" +
+               "Connection: close\r\n\r\n");
+  while (client.connected()) {
+    String line = client.readStringUntil('\n');
+    if (line == "\r") {
+      break;
+    }
+  }
+  String line = client.readStringUntil('}');
+  line = line + "}";
+  DynamicJsonBuffer  jsonBuffer(200);
+    JsonObject& root = jsonBuffer.parseObject(line);
+  if (!root.success()) {
+    Serial.println("parseObject() failed");
+    Read1on = false;
+    return;
+  }
+  can1 = root["on"];
+  Read1on = true;
+  onsend = false;
+  TH_Overlay();
+}
+void D_Link_read2() {
+  url = D_Link_2;
+  WiFiClientSecure client;
+  if (!client.connect(host, httpsPort)) {
+    Serial.println("connection failed");
+    Read2on = false;
+    return;
+  }
+  client.print(String("GET ") + url + "/read" + " HTTP/1.1\r\n" +
+               "Host: " + host + "\r\n" +
+               "User-Agent: ESP8266\r\n" +
+               "Connection: close\r\n\r\n");
+  while (client.connected()) {
+    String line = client.readStringUntil('\n');
+    if (line == "\r") {
+      break;
+    }
+  }
+  String line = client.readStringUntil('}');
+  line = line + "}";
+  DynamicJsonBuffer  jsonBuffer(200);
+    JsonObject& root = jsonBuffer.parseObject(line);
+  if (!root.success()) {
+    Serial.println("parseObject() failed");
+    Read2on = false;
+    return;
+  }
+  can2 = root["on"];
+  Read2on = true;
+  onsend = false;
+  TH_Overlay();
+}
