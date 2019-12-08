@@ -15,6 +15,6 @@ Added read-only field with the latest Supla connection state.
 
 https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/impulse%20counter%20new%20supla%20lib/Supla_impulse_Th16/wificonfig.png
 
-[img]https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/impulse%20counter%20new%20supla%20lib/Supla_PZEM004_s_s/PZEM2.jpg[/img]
+https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/impulse%20counter%20new%20supla%20lib/Supla_PZEM004_s_s/PZEM2.jpg
 
-[img]https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/impulse%20counter%20new%20supla%20lib/Supla_PZEM004_s_s/PZEM1.jpg[/img]
+https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/impulse%20counter%20new%20supla%20lib/Supla_PZEM004_s_s/PZEM1.jpg
