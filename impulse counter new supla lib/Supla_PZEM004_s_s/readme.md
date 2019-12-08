@@ -7,3 +7,12 @@ Gpio 5 // D1 RX connect to TX of PZEM
 Gpio 4 // D2 TX connect to RX of PZEM
 
 added read-only field for Supla Last State to wificonfig.
+
+
+![Breadboard Layout and case](PZEM1.jpg)
+
+
+![Breadboard Layout and case](PZEM2.jpg)
+
+
+![Breadboard Layout and case](wificonfig.png)
