@@ -4,6 +4,7 @@ Pulse counter based on SoftVer 2.3.0. (Supla Arduino develop) By klew.
  * Pin 5 Rx (Connects to the Tx pin on the PZEM)
  * Pin 4 Tx (Connects to the Rx pin on the PZEM)
 */
+
 PZEM004Tv30 pzem(5, 4); //change based on your hardware configuration
 
 wisiconfig Gpio 0 //D3
