@@ -6,6 +6,8 @@ using the pulse counter channel for the energy meter and a temperature and humid
 To access the Wi-Fi configuration, press button for at least 10 seconds.
 in the configuration page enter the data for "suplaServer, Email and Supla Device Name (name with which it will be seen in the cloud)"
 
+![Breadboard Layout and case](wificonfig.png)
+
 read-only field with the latest Supla connection state.
 
 expectedVoltage -- for calibration.
