@@ -1,0 +1,24 @@
+Firmware alternativo para H801 RGB + W + W
+Nos permite usar nuestro H801 para controlar una tira Led RGB con el canal RGB además de dos tiras Led monocromáticas con los dos canales dimmer adicionales.
+Tiene la posibilidad de conectar un pulsador en Gpio 0 para encendido y apagado local o en ausencia de conexión a internet.
+El funcionamiento de este pulsador es el siguiente:
+Con alguno de los Leds encendidos al pulsar estos se apaga.
+Con los Leds apagados al pulsar estos se encenderán con los mismos ajustes con los que se apagaron por última vez.
+La transición entre ajustes tanto de color como de brillo se efectúa de modo suave.
+
+Configuración:
+Inicie sesión en https://cloud.supla.org (el registro es gratuito).
+Para acceder a la configuración WiFi es necesario conectar Gpio 0 a masa durante al menos 10 segundos o pulsar el pulsador en caso de haberse implementado (esto ocurre automáticamente en el primer inicio después de programar el H801).
+El H801 emitirá una Red WiFi con el nombre “H801_RGB_W_W” conecte a esta Red.
+En caso de que el navegador no abra automáticamente, ábralo y acceda a la página http://192.168.4.1.
+Pulse en Configure WiFi.
+Seleccione su Red WiFi de la lista en la parte superior pulsando sobre la que corresponda.
+Escriba la contraseña de su Red WiFi.
+Rellene los campos de “supla server” y “Email” con los datos de su registro en https://cloud.supla.org.
+“Supla Device Name” será el nombre con el que identifique el dispositivo en la nube (útil cuando hay más de un dispositivo) por ejemplo “Led Cocina”.
+“Supla Last Sate” solo es informativo.
+Pulsamos en “Save” y hemos terminado la configuración.
+
+Actualización OTA = http://XX:81/update -- xx = H801- ip. Por ejemplo: http://192.168.1.22:81/update
+Usuario: admin      Contraseña: pass
+
