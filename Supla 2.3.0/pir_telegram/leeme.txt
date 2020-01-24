@@ -1,0 +1,35 @@
+Mini Alarma Supla Pir Telegram
+Se compone de un sensor de movimiento Pir el cual se activa/desactiva desde la App Supla,
+Si el sensor esta activado y detecta movimiento nos envía el mensaje que hayamos definido en WiFiconfig al servicio de mensajería instantánea Telegram.
+Conexiones:
+Gpio 0 – D3   WiFiconfig 
+GPIO 2 – D4 Led 
+Gpio12 – D6  Sensor Pir
+ 
+Para esto tendremos que crear un TelegramBot desde la App de Telegram usando “Bot Father” y nos dará el BotToken, hay muchos tutoriales en la red.
+También necesitamos nuestro Chat_Id que podemos obtener con “@get_id_bot” desde la misma App de Telegram.
+ 
+
+Para ingresar o cambiar la configuración:
+Para acceder al modo de configuración WiFi, mantenga presionado el botón durante al menos 5 segundos.
+Cuando está en modo de configuración WiFi, el dispositivo entra en modo Punto de acceso WiFi y el LED de estado se enciende.
+- Inicie sesión en https://cloud.supla.org (el registro es gratuito) y Active el registro para nuevo dispositivo.
+- Conéctese a la  WiFi llamada " Supla_Pir " desde cualquier dispositivo con red inalámbrica y un navegador de Internet.
+- Abra la Página: http://192.168.4.1
+- Pulse en configure WiFi.
+ 
+- En la página de configuración
+- Seleccione la red WiFi en la parte superior pulsando la que corresponda y después ingrese la contraseña.
+- ingrese los datos para:
+suplaServer (svrX.supla.org), 
+Email (Email de registro en supla) , 
+Supla Device Name (nombre con el que se verá en la nube),
+Bot Token (lo habremos obtenido de “Bot Father”)
+Chad_ID (lo habremos obtenido de “@get_id_bot”)
+Alarm Message (escribimos el texto del mensaje)
+ 
+- Para terminar pulse en Save para guardar los datos de configuración.
+Actualización de Firmware a través del navegador web OTA --  http: // XX: 81 / update 
+xx = IP del dispositivo. Por ejemplo http://192.168.1.22:81/update
+Usuario: admin
+Contraseña: pass
