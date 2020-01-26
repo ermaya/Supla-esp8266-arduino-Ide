@@ -52,8 +52,8 @@ char Supla_server[81]=("Set server address");
 char Email[81]=("set email address");
 char Supla_name[51];
 char Supla_status[51];
-char BotToken[46];                                                   
-char Chat_Id[12];                   
+char BotToken[60];                                                   
+char Chat_Id[20];                   
 char Alarm[80];
 const char* host = "api.telegram.org";
 const int httpsPort = 443;    
@@ -112,8 +112,8 @@ void ondemandwifiCallback () {
    WiFiManagerParameter custom_Email("email", "Email", Email, 81,"required");
    WiFiManagerParameter custom_Supla_name("name", "Supla Device Name", Supla_name, 51,"required");
    WiFiManagerParameter custom_Supla_status("status", "Supla Last State", Supla_status, 51,"readonly");
-   WiFiManagerParameter custom_BotToken("BotToken", "Bot Token", BotToken, 46);
-   WiFiManagerParameter custom_Chat_Id("Chat_Id", "Chat Id", Chat_Id, 12);
+   WiFiManagerParameter custom_BotToken("BotToken", "Bot Token", BotToken, 60);
+   WiFiManagerParameter custom_Chat_Id("Chat_Id", "Chat Id", Chat_Id, 20);
    WiFiManagerParameter custom_Alarm("Alarm", "Alarm Message", Alarm, 80);
    
    wifiManager.setBreakAfterConfig(true);
