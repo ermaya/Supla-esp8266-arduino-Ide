@@ -1,0 +1,32 @@
+Mini alarma Supla Pir Pushover
+Consiste en un sensor de movimiento Pir que se activa / desactiva desde la aplicación Supla,
+Si el sensor está activado y detecta movimiento, envía el mensaje que hemos definido en WiFiconfig al servicio Pushover.
+Conexiones:
+Gpio 0 - D3 WiFiconfig
+Gpio 2 - D4 Led
+Gpio12 - Sensor D6 Pir
+
+Para ingresar o cambiar la configuración:
+Para ingresar al modo de configuración WiFi, presione y mantenga presionado el botón durante al menos 5 segundos.
+Cuando se encuentra en el modo de configuración de Wi-Fi, el dispositivo ingresa al modo de punto de acceso Wi-Fi y se enciende el LED de estado.
+- Inicie sesión en https://cloud.supla.org (el registro es gratuito) y active el registro para un nuevo dispositivo.
+- Conéctese al WiFi llamado "Supla_Pir_Push" desde cualquier dispositivo con red inalámbrica y un navegador de Internet.
+- Abra la página: http://192.168.4.1
+- Toque Configurar WiFi.
+
+- En la página de configuración
+- Seleccione la red Wi-Fi en la parte superior presionando la apropiada y luego ingrese la contraseña.
+- ingrese los datos de:
+suplaServer (svrX.supla.org),
+Email (correo electrónico de registro en supla),
+Supla Device Name (nombre con el que se verá en la nube),
+App Token (Pushover Api Token)
+User Token (Token de usuario Pushover)
+Alarm Message (escribimos el texto del mensaje)
+select Sound (sonido de notificación Pushover)
+- Para finalizar, haga clic en Guardar para guardar los datos de configuración.
+
+Actualización de firmware a través del navegador web OTA - http: // XX: 81 / update
+xx = IP del dispositivo. Por ejemplo http://192.168.1.22:81/update
+Usuario: admin
+Contraseña: pass
