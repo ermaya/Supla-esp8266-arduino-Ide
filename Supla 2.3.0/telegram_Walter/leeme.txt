@@ -1,0 +1,16 @@
+Gpio  Sensor1_PIN 14    //D5     // triger Link 1
+Gpio  Sensor2_PIN 12    //D6     // triger Link 2
+Gpio  Sensor3_PIN 13    //D7     // triger Link 3
+Gpio  relay1_pin 16     //D0
+Gpio  relay2_pin 5      //D1
+Gpio  relay3_pin 4      //D2
+Gpio  wificonfig_pin 0  //D3
+Gpio  led_pin  2        //D4
+
+En wificonfig podemos definir los 3 mensajes de notificación de modo independiente con un máximo de 40 caracteres cada uno de ellos.
+
+En la nube “Supla” tendremos 6 canales de los cuales configuramos los tres primeros como interruptor y nos permitirá activar/desactivar las notificaciones a Telegram en los correspondientes sensores que corresponden a los últimos tres en la nube y configuramos como por ejemplo sensor de ventana, los iconos los podemos cambiar por otros (ventana cerrada corresponde a sensor inactivo “nivel alto” y ventana abierta corresponde a sensor activo ”Gpio conectado a masa”)
+
+Además en los Gpio 16 — 5 — 4  podemos conectar Leds “con resistencia en serie” que mostraran el estado de las notificaciones de los distintos canales “nivel alto = activo”.
+
+La activación de las notificaciones es por flanco descendente ”al pasar de nivel alto a bajo”.
