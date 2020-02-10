@@ -1,0 +1,87 @@
+Supla 16 x 16
+1 ESP8266 en conjunción con 2 MCP23017 para controlar 16 salidas(rele) con sus correspondientes 16 pulsadores para control local.
+
+Gpio:
+
+ESP8266
+Gpio16(D0) -- Led (WiFiConfig)
+Gpio 5(D1) -- SCL
+Gpio 4(D2) -- SDA
+Gpio 0(D3) -- WiFiConfig
+Gpio 2(D4) -- Mcp23017 RESET
+
+Mcp23017 -- Rele
+VCC -- +3.3
+Gnd-a0-a1-a2 --GND
+SCL -- Esp Gpio 5(D1)
+SDA -- Esp Gpio 4(D2)
+RESET -- Esp Gpio 2(D4)
+Gpio A0 -- Out  1
+Gpio A1 -- Out  2
+Gpio A2 -- Out  3
+Gpio A3 -- Out  4
+Gpio A4 -- Out  5
+Gpio A5 -- Out  6
+Gpio A6 -- Out  7
+Gpio A7 -- Out  8
+Gpio B0 -- Out  9
+Gpio B1 -- Out 10
+Gpio B2 -- Out 11
+Gpio B3 -- Out 12
+Gpio B4 -- Out 13
+Gpio B5 -- Out 14
+Gpio B6 -- Out 15
+Gpio B7 -- Out 16
+
+Mcp23017 -- Pulsador
+VCC - a0  --  +3.3
+Gnd-a1-a2 --GND
+SCL -- Esp Gpio 5(D1)
+SDA -- Esp Gpio 4(D2)
+RESET -- Esp Gpio 2(D4)
+Gpio A0 -- botón  1
+Gpio A1 -- botón  2
+Gpio A2 -- botón  3
+Gpio A3 -- botón  4
+Gpio A4 -- botón  5
+Gpio A5 -- botón  6
+Gpio A6 -- botón  7
+Gpio A7 -- botón  8
+Gpio B0 -- botón  9
+Gpio B1 -- botón 10
+Gpio B2 -- botón 11
+Gpio B3 -- botón 12
+Gpio B4 -- botón 13
+Gpio B5 -- botón 14
+Gpio B6 -- botón 15
+Gpio B7 -- botón 16
+
+
+Añadida memoria automática de retardo para canal monoestable desde botones locales.
+En el momento en que uno de los canales está configurado en Supla cloud como monoestable (temporizador de escalera, apertura de garaje, etc.)
+En la primera activación desde la App Supla o Supla cloud, el módulo almacena el retardo que se ha establecido en Supla cloud.
+A partir de ese momento, el botón local correspondiente a ese canal actuará con el mismo retardo.
+Por ejemplo:
+En Supla cloud configuramos el canal 0 como un temporizador de escalera con un tiempo de 60 segundos.
+Activamos ese canal una vez desde App Supla(o Supla cloud).
+Esto memoriza el retardo de 60 segundos para el canal 0 en el módulo.
+Si presionamos el botón local 0, el canal 0 se activa durante 60 segundos.
+
+
+Configuración:
+Inicie sesión en https://cloud.supla.org (el registro es gratuito).
+Para acceder a la configuración WiFi es necesario conectar Gpio 0 (D3)a masa durante al menos 5 segundos o pulsar el pulsador en caso de haberse implementado (esto ocurre automáticamente en el primer inicio después de programar el Esp8266).
+El Esp8266 emitirá una Red WiFi con el nombre “Supla_16x16” conecte a esta Red.
+En caso de que el navegador no abra automáticamente, ábralo y acceda a la página http://192.168.4.1.
+Pulse en Configure WiFi.
+Seleccione su Red WiFi de la lista en la parte superior pulsando sobre la que corresponda.
+Escriba la contraseña de su Red WiFi.
+Rellene los campos de “supla server” y “Email” con los datos de su registro en https://cloud.supla.org.
+“Supla Device Name” será el nombre con el que identifique el dispositivo en la nube (útil cuando hay más de un dispositivo) por ejemplo “Supla_16x16”.
+“Supla Last Sate” solo es informativo.
+Pulsamos en “Save” y hemos terminado la configuración.
+
+Actualización OTA = http://XX:81/update -- xx = Esp8266- ip. Por ejemplo: http://192.168.1.22:81/update
+Usuario: admin      
+Contraseña: pass
+
