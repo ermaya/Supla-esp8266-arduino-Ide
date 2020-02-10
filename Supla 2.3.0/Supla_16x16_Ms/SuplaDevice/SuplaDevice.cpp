@@ -1372,7 +1372,7 @@ void SuplaDeviceClass::channelSetValue(int channel,
           channel_pin[channel].time_left = DurationMS;
 		  channel_pin[channel].DurationMS = DurationMS;
         }else {
-		  channel_pin[channel].DurationMS = DurationMS;
+		  channel_pin[channel].DurationMS = 0;
 		}
       }
     }
