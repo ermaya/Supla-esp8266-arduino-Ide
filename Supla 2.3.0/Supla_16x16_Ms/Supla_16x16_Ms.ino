@@ -86,7 +86,7 @@ class MyMcp23017 : public Supla::Io {
       if ((pin >= 100)&& (pin <= 115)){
         mcp.digitalWrite(pin - 100, val);
          if (state10 == false){ 
-           if( btn[channelNumber].ms <= 0 ){ 
+           if( btn[channelNumber].ms < 10 ){ 
              EEPROM.write(pin, val);
              EEPROM.commit();
            }
@@ -386,7 +386,7 @@ void setup() {
 
     SuplaDevice.begin(GUID,Supla_server,Email,AUTHKEY);
 
-    for (int i = 0; i < 16; i++) {if ((EEPROM.read(i +100) == 1) && (btn[i].ms<=0)){mcp.digitalWrite(i, HIGH);} } 
+    for (int i = 0; i < 16; i++) {if ((EEPROM.read(i +100) == 1) && (btn[i].ms<10)){mcp.digitalWrite(i, HIGH);} } 
           
 }
 
@@ -439,7 +439,7 @@ void loop() {
     case 17:      // -----     STATUS_REGISTERED_AND_READY
      if (state10 == true){ 
       for (int i = 0; i < 16; i++) {
-        if (btn[i].ms<=0){
+        if (btn[i].ms<10){
          if (EEPROM.read(i +100) == 1){
           SuplaDevice.relayOn(i, 0);
          }
