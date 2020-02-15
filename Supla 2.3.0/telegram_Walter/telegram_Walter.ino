@@ -13,19 +13,19 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include <FS.h>       // ---- esp board manager 2.5.2 --- iwip Variant V2 Lower Memory (no features)
+#include <FS.h>       // ---- esp board manager 2.5.2 --- iwip Variant V2 
 #include <SPI.h>
 #include <SuplaDevice.h>  // SoftVer, "2.3.0"
 #include <io.h>
 #include <WiFiManager.h>
 #include <ArduinoJson.h> //--------- https://github.com/bblanchon/ArduinoJson/tree/v5.13.2 ------
-//#include <supla/network/esp_wifi.h>
+#include <supla/network/esp_wifi.h>
 #include <EEPROM.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPUpdateServer.h>
 #include <ESP8266TrueRandom.h>
 #include <WiFiClientSecure.h>
-#include <supla/network/esp_wifi.h>
+//#include <supla/network/esp_wifi.h>
 Supla::ESPWifi wifi("", "");  //------ Do not change----wifimanager takes care------
 extern "C"
 {
