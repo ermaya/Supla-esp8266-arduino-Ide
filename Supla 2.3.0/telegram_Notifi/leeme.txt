@@ -1,0 +1,8 @@
+Dispositivo pensado para el envió de notificaciones desde Supla a Telegran con la automatización que incorporara la nube 2.4
+Esp8266 con 8 canales para 8 notificaciones a definir en WiFiConfig.
+Los canales se configuran en Supla como monoestables (apertura de puerta,Etc…)
+En el momento que se active alguno de los canales envía el mensaje correspondiente a Telegram.
+Con esto podremos programar la automatización para que si se efectúa una acción determinada nos lo notifique.
+
+Gpio 0 = WiFiConfig.
+Gpio 2 = Led.
