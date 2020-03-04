@@ -1,0 +1,24 @@
+Supla rele x4 lc technology
+Modulo rele de 4 canales que podemos controlar desde la App Supla
+Y un canal de temperatura DS18B20 en Gpio2(necesita resistencia de 4,7kohm a +3,3v)
+El modulo siempre tiene que estar en modo2 (Led rojo D7 encendido) y no debemos de pulsar S1 modo1  (Led azul D5 encendido).
+Si estuviera en modo1 (Led azul D5 encendido) tenemos que mantener pulsado S2 mientras lo conectamos a la alimentación (cambia a modo2 Led rojo D7 encendido).
+El Led verde D6 nos indica el estado: intermitente = no conectado o conectando , encendido = conectado (funcionamiento normal) , apagado = WiFiConfig.
+El pulsador S2 nos permite acceder a WiFiConfig.
+Memoria de estado para cortes de alimentación: si se produce una interupcion en la alimentación del modulo al reiniciar estará en el estado anterior al corte.
+Para acceder al modo de configuración WiFi, pulsar S2.
+Cuando está en modo de configuración WiFi, el dispositivo entra en modo Punto de acceso WiFi y el LED verde D6 se apaga.
+
+Para ingresar o cambiar la configuración:
+- Inicie sesión en https://cloud.supla.org (el registro es gratuito) y Active el registro para nuevo dispositivo.
+- Conéctese a la WiFi llamada " Supla_LC4 " desde cualquier ordenador con una tarjeta de red inalámbrica y un navegador de Internet.
+- Abra la Página: http://192.168.4.1
+- Pulse en configure WiFi.
+- En la página de configuración
+- Seleccione la red WiFi en la parte superior pulsando la que corresponda y después ingrese la contraseña en Password.
+- ingrese los datos para "suplaServer (svrX.supla.org), Email(Email de registro en supla) y Supla Device Name (nombre con el que se verá en la nube)"
+- Para terminar pulse en Save para guardar los datos de configuración.
+Actualización de Firmware a través del navegador web OTA: http: // XX: 81 / update
+xx = IP del dispositivo. Por ejemplo http://192.168.1.22:81/update
+Usuario: admin
+Contraseña: pass
