@@ -1,0 +1,10 @@
+
+Wemos Nodemcu Gpio:
+D3 = WiFiConfig (5 Sekunden verbunden mit GND /Nodemcu Flash-Taste)
+D4 = LED (blinkt 0,2" = WiFiConfig / blinkt 0,8" verbindet WiFi-Supla / blinkt 5,0" normal)
+D5 = ZeroCall (verbunden mit GND)
+A0 = Analogeingang (Verbinden Sie den Sensor über einen 180-kOhm-Widerstand mit A0)
+
+
+conpensation: niedrigerer Wert = zeigt höheren Bar-wert.
+Er sollte zwischen 800 und 850 liegen.
