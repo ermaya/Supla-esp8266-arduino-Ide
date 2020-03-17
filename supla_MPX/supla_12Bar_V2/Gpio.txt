@@ -1,0 +1,11 @@
+Wemos Nodemcu Gpio:
+D1 = sensor1(NO)
+D2 = sensor2(NO)
+D3 = WiFiConfig (5 Sekunden verbunden mit GND /Nodemcu Flash-Taste)
+D4 = LED (blinkt 0,2" = WiFiConfig / blinkt 0,8" verbindet WiFi-Supla / blinkt 5,0" normal)
+D5 = ZeroCall (verbunden mit GND)
+D6 = relay1
+D7 = relay2
+D8 = relay3
+A0 = Analogeingang (Verbinden Sie den Sensor über einen 180-kOhm-Widerstand mit A0)
+RX = DS18B20 (x2) pullup 4,7k
