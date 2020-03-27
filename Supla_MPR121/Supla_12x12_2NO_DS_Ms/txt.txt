@@ -1,0 +1,3 @@
+soft works as monostable or bistable according to cloud settings (you have the two options staircase timer or switch "for each channel").
+
+12 outputs, 12 touch buttons, 2 sensors and 1 DS18B20.
