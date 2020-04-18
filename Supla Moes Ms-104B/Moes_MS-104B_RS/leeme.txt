@@ -1,0 +1,17 @@
+Moes_MS-104B como controlador de persiana 
+
+Configuración:
+Inicie sesión en https://cloud.supla.org (el registro es gratuito).
+
+Para acceder a la configuración WiFi es necesario mantener pulsado el botón del modulo durante al menos 10 segundos “el zumbador de modulo sonara a intervalos” (esto ocurre automáticamente en el primer inicio después de programar el ESP8266).
+El ESP8266 emitirá una Red WiFi con el nombre “Moes_MS-104B_RS” conecte a esta Red.
+En caso de que el navegador no abra automáticamente, ábralo y acceda a la página http://192.168.4.1.
+Pulse en "Configure WiFi"
+Seleccione su Red WiFi de la lista en la parte superior pulsando sobre la que corresponda.
+"Password" Escriba la contraseña de su Red WiFi.
+Rellene los campos con los datos de su registro en https://cloud.supla.org.
+update username y update password corresponden al nombre y contraseña para la actualización de Firmware a través de WebUpdate:  http://”ip”:81/update
+“Supla Device Name” será el nombre con el que identifique el dispositivo en la nube (útil cuando hay más de un dispositivo) por ejemplo “Persiana Salón”.
+
+“Supla Last Sate” solo es informativo.
+Pulsamos en “Save” y hemos terminado la configuración.

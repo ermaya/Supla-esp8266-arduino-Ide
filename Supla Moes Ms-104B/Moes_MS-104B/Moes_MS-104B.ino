@@ -156,7 +156,7 @@ void ondemandwifiCallback () {
    
   WiFi.softAPdisconnect(true);   //  close AP
     ticker.detach();
-    digitalWrite(status_led, HIGH);
+    digitalWrite(status_led, LOW);
 }
 /*
 void get_temperature_and_humidity(int channelNumber, double *temp, double *humidity) {
@@ -172,34 +172,34 @@ void get_temperature_and_humidity(int channelNumber, double *temp, double *humid
 }*/
 
 ICACHE_RAM_ATTR void sense_1(){
-  detachInterrupt(button_1);
+    detachInterrupt(button_1);
   btc_1++;
-  attachInterrupt(button_1, sense_1, FALLING);
+    attachInterrupt(button_1, sense_1, RISING);
 }
 ICACHE_RAM_ATTR void sense_2(){
-  detachInterrupt(button_2);
+    detachInterrupt(button_2);
   btc_2++;
-  attachInterrupt(button_2, sense_2, RISING);
+    attachInterrupt(button_2, sense_2, RISING);
 }
 void button_timer(){
   detachInterrupt(button_1);
   detachInterrupt(button_2);
   
-  if (btc_1 > 2 ){
+  if (btc_1 > 8 ){
     btn[0].btp = 1;
   } else {
     btn[0].btp = 0;
   }
   btc_1 = 0;
 
-    if (btc_2 > 2 ){
+    if (btc_2 > 8 ){
     btn[1].btp = 1;
   } else {
     btn[1].btp = 0;
   }
   btc_2 = 0;
   
-   attachInterrupt(button_1, sense_1, FALLING);
+   attachInterrupt(button_1, sense_1, RISING);
    attachInterrupt(button_2, sense_2, RISING);
 }
 
@@ -357,12 +357,16 @@ void setup() {  //------------------------------------------------ Setup -------
   
   pinMode(status_led,OUTPUT); 
   digitalWrite(status_led, LOW);
-
+  
+   pinMode(BTN_wificonfig, INPUT_PULLUP);
    pinMode(button_1, INPUT_PULLUP);
    pinMode(button_2, INPUT_PULLUP);
    
-   attachInterrupt(button_1, sense_1, FALLING);
+   attachInterrupt(button_1, sense_1, RISING);
    attachInterrupt(button_2, sense_2, RISING);
+   delay(200);
+   T_btn.attach(0.2, button_timer);
+   delay(200);
   
   EEPROM.begin(512);
   
@@ -403,8 +407,6 @@ void setup() {  //------------------------------------------------ Setup -------
   btn[1].ms = btn1ms;
   btn[1].mem =0;
   supla_btn_init();
-
-  T_btn.attach(0.1, button_timer);
 
   Serial.println("mounting FS...");
   if (SPIFFS.begin()) {
@@ -532,7 +534,7 @@ void loop() {
      Eepron_read() ;      
      epr = epr+1;
       if (tikOn == true){            
-        digitalWrite(status_led, HIGH);
+        digitalWrite(status_led, LOW);
         tikOn = false;
         Serial.println("supla.Ready");}
        }
@@ -557,7 +559,7 @@ void loop() {
   }
 
     CustomSupla.iterate(); 
-    //delay(50);
+    delay(22);
     iterate_botton(); 
    
    if (WiFi.status() == WL_CONNECTED){    
