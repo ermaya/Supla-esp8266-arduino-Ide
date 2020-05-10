@@ -1,0 +1,13 @@
+https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/RGB/RGBW_H801_IR/main%201.png
+
+https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/RGB/RGBW_H801_IR/main%202.png
+
+https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/RGB/RGBW_H801_IR/store.png
+
+https://raw.githubusercontent.com/ermaya/Supla-esp8266-arduino-Ide/master/RGB/RGBW_H801_IR/stored%20codes.png
+
+I'm playing with your RGBW library.
+I have added an IR receiver to capture signals from IR remote controls to control some of the functions.
+Learn from any standard IR remote control to assign the keys on the remote to the functions.
+It is a little green but if you are interested take a look.
+this code is for H801 with a button on Gpio 0 and the IR receiver on Gpio3 "marked as TX on H801"
