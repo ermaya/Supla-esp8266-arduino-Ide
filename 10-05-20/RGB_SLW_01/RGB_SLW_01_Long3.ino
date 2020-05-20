@@ -1292,7 +1292,7 @@ void loop() { // ===============================================================
      
    }
 
-  int dim_read = digitalRead(BTN_PIN);  
+  int dim_read = digitalRead(BTN_PIN);  // brightness up or down in steps by 5 if button hold,reverse on min/max.
    if (dim_read != last_dim_state) {            
      time_last_dim_change = millis();
    }
