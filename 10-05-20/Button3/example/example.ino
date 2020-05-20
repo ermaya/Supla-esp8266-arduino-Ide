@@ -10,7 +10,7 @@ void setup() {
   button.setTripleClickHandler(tripleClick);
   button.setQuatleClickHandler(quatleClick);
   button.setQuintleClickHandler(quintleClick);  
-  button.setConfigClickHandler(configClick);
+  button.setConfigClickHandler(configClick); // 10 x Click
 }
 
 void loop() {
