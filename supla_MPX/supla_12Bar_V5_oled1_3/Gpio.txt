@@ -1,0 +1,12 @@
+Wemos Nodemcu Gpio:
+D1 = sensor1(NO)
+D2 = sensor2(NO)
+D3 = Oled SDA
+D4 = Oled SCL
+D5 = Manuel (verbunden mit GND)
+D6 = WiFiConfig (5 seconds) ZeroCall (5 x click)
+D7 = relay1 + 2
+D8 = relay3
+A0 = Analogeingang (Verbinden Sie den Sensor über einen 180-kOhm-Widerstand mit A0)
+RX = DS18B20 (x2) pullup 4,7k
+
