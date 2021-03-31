@@ -1,3 +1,5 @@
+---- Canwing CW-001 ----
+
 wificonfig_pin  =  D3 -- Gpio 0  "5 seconds"
 DS18B20         =  TX --  Gpio 1
 button auto/Man =  RX --  Gpio 3     
