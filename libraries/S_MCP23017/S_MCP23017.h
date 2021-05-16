@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <functional>
+#define ReadingInterval 20
 
 class MCP23017 {
 public:
@@ -44,8 +45,8 @@ protected:
   void _interrupt();
 
   uint8_t _address;
-  uint16_t ba = 0;
-  unsigned long get_ba = 0;
+  uint16_t _ba = 0;
+  unsigned long _lastTimeGet_ba = 0;
   callback_t _callback;
 };
 
