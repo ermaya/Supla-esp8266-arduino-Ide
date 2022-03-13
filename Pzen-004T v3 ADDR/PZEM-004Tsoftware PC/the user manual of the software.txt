@@ -1,0 +1,29 @@
+The following specification is only refer to the situation when you connect the module with the PC via the TTL to USB 
+cable and use our software to read the data.
+1. Install the serial driver (if you already have it, please ignore this step.
+2. Click the ¡¾run¡¿document to register, after it hint registered succefully, you can use the software. If you can't register,
+please try the following step:
+   1). right click the ¡¾run¡¿----Then choose administrator run
+   2). it it is still problem, please copy the document and put it on the system disk directory (such as the desktop) or other 
+folder to try register again.
+3. In the parameters setting interface, if it is gray, that means it can not be amend.
+4. At present, this software is a stand-alone version and does not support multi-computer communication. If you want to 
+use multiple communication boxes at the same time, please write your own software or code.
+5. The power alarm mode is the red display of the power data in the software display interface. There is no alarm signal 
+output driver port on this communication box.
+
+6. This product communication protocol is standard Modbus-RTU. If users use serial assistant or write their own code, 
+please pay attention to the format and calculation method of the check code:
+  CRC is a common CR16 check format, if you can write code, you will understand easily;
+  The software MODEBUSRTU debugging tool CRC16 version can be debugged.
+  The following is the CRC calculation method:
+    1£©. Place the 16-bit register is all 1 as the CRC register.
+    2£©.To distinguish an 8-bit data from the low bytes of a 16-bit CRC register XOR, Put the results in the CRC register.
+    3)  .Move the contents of the registers one bit to the right (toward the bottom bit) and fill in the top bit with 0, 
+          check the lowest bit (removal bit).
+    4)  .If the lowest bit is 0, repeat 2.3 (re-shift); if the lowest bit is 1, CRC Register and Polynomial A001H (1010 0000 0000 0001)
+          ) Make XOR.
+    5)  .Repeat 2.3 and 2.4 until you move 8 times to the right, so that the whole 8-bit data is complete. 2.6 Repeat 2.2-2.5, 
+          to process the next 8-bit data.
+    6)  .After processing all data bytes of a frame, get the CRC-16 register. 2.8. Exchange low byte and high byte of CRC-16 register,
+          to get the CRC-16 code.
