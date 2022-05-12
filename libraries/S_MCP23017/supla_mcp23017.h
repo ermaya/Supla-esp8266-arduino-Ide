@@ -21,10 +21,11 @@ class CustomControl : public Supla::Io {
       }     
       if ((pin > 99) && (pin < 116)){
         mcp1.digitalWrite(pin - 100, val);
-         return;
+	  return;
       }
       if ((pin > 115) && (pin < 132)){
         mcp2.digitalWrite(pin - 116, val);
+	  return;
       }
       if ((pin > 131) && (pin < 148)){
         mcp3.digitalWrite(pin - 132, val);
